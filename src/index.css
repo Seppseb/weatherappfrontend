@@ -1,0 +1,20 @@
+:root{
+    --bg: #071426;      /* deep navy */
+    --card: #072433;    /* slightly lighter */
+    --accent: #14b8a6;  /* teal */
+    --muted: #94a3b8;   /* muted text */
+    --text: #e6f6f5;    /* main text */
+  }
+  
+  *{box-sizing:border-box}
+  html,body,#root{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial;background:var(--bg);color:var(--text)}
+  .app{max-width:980px;margin:28px auto;padding:18px}
+  .header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+  .card{background:var(--card);border-radius:8px;padding:14px;box-shadow:0 6px 18px rgba(0,0,0,0.35)}
+  .controls{display:flex;gap:8px;align-items:center}
+  .small{font-size:0.9rem;color:var(--muted)}
+  .chart-wrap{height:360px;margin-top:12px}
+  .button{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:8px 12px;border-radius:6px;color:var(--text);cursor:pointer}
+  .button:hover{border-color:var(--accent)}
+  .select{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:8px 10px;border-radius:6px;color:var(--text)}
+  .table{margin-top:12px;font-size:0.9rem;color:var(--muted)}
