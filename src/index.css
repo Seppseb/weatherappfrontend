@@ -18,3 +18,7 @@
   .button:hover{border-color:var(--accent)}
   .select{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:8px 10px;border-radius:6px;color:var(--text)}
   .table{margin-top:12px;font-size:0.9rem;color:var(--muted)}
+  .select option {
+    background-color: var(--card);
+    color: var(--text);
+  }

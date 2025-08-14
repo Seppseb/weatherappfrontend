@@ -20,9 +20,21 @@ export default function TempChart({ data }){
           
           {/* Use the helper function for the tooltip label */}
           <Tooltip 
-            labelFormatter={formatDateConditionally} 
-            formatter={(value) => [`${value.toFixed(1)} °C`, 'Avg Temp']} // Optional: Nicer tooltip content
-          />
+          labelFormatter={formatDateConditionally} 
+          formatter={(value) => [`${value.toFixed(1)} °C`, 'Avg Temp']}
+          contentStyle={{
+            backgroundColor: 'var(--card)',
+            border: '1px solid var(--accent)',
+            color: 'var(--text)' // main text color
+          }}
+          labelStyle={{
+            color: 'var(--accent)', // date label color
+            fontWeight: 600
+          }}
+          itemStyle={{
+            color: 'var(--text)' // temperature text color
+          }}
+        />
           
           <Line type="monotone" dataKey="avg_temp" dot={false} stroke="#14b8a6" strokeWidth={2} />
         </LineChart>
