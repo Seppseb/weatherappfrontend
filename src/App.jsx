@@ -62,7 +62,7 @@ export default function App(){
     <div className="app">
       <div className="header">
         <h1>Weather — Temperature</h1>
-        <div className="small">Data source: OpenWeatherMap (via your backend)</div>
+        <div className="small">Data source: OpenWeatherMap (via own backend)</div>
       </div>
 
       <div className="card">
@@ -80,11 +80,29 @@ export default function App(){
         <TempChart data={data} />
 
         <div className="table">
-          <strong>Latest points (per hour averages)</strong>
-          <ul>
-            {data.slice(-20).reverse().map((d, i) => (
-              <li key={i}>{new Date(d.time).toLocaleString()} — {d.avg_temp != null ? d.avg_temp.toFixed(1) + ' °C' : '—'}</li>
-            ))}
+          <strong>Latest points</strong>
+            <ul>
+              {data.slice(-20).reverse().map((d, i) => {
+              const date = new Date(d.time);
+
+              // Pad numbers to ensure two digits (e.g., 05 instead of 5)
+              const pad = (num) => String(num).padStart(2, '0');
+
+              const year = date.getFullYear();
+              const month = pad(date.getMonth() + 1); // getMonth() is 0-indexed!
+              const day = pad(date.getDate());
+              const hours = pad(date.getHours());
+              const minutes = pad(date.getMinutes());
+              let formattedDate = `${day}.${month} ${hours}:${minutes}`;
+              if (new Date().getFullYear() != year) {
+                formattedDate = `${day}.${month}.${year} ${hours}:${minutes}`;
+              }
+              return (
+                <li key={i}>
+                  {formattedDate} — {d.avg_temp != null ? d.avg_temp.toFixed(1) + ' °C' : '—'}
+                </li>
+              );
+            })}
           </ul>
         </div>
       </div>
