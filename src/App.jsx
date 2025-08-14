@@ -3,6 +3,7 @@ import DateRangeSelector from './components/DateRangeSelector'
 import CitySelector from './components/CitySelector'
 import TempChart from './components/TempChart'
 import { fetchAllCities } from './api'
+import { formatDateConditionally } from './components/TempChart'
 
 export default function App(){
   const [citiesData, setCitiesData] = useState({})
@@ -83,25 +84,9 @@ export default function App(){
           <strong>Latest points</strong>
             <ul>
               {data.slice(-20).reverse().map((d, i) => {
-              const date = new Date(d.time);
-
-              // Pad numbers to ensure two digits (e.g., 05 instead of 5)
-              const pad = (num) => String(num).padStart(2, '0');
-
-              const year = date.getFullYear();
-              const month = pad(date.getMonth() + 1); // getMonth() is 0-indexed!
-              const day = pad(date.getDate());
-              const hours = pad(date.getHours());
-              const minutes = pad(date.getMinutes());
-              let formattedDate = `${day}.${month} ${hours}:${minutes}`;
-              if (new Date().getFullYear() != year) {
-                formattedDate = `${day}.${month}.${year} ${hours}:${minutes}`;
-              }
-              return (
-                <li key={i}>
-                  {formattedDate} — {d.avg_temp != null ? d.avg_temp.toFixed(1) + ' °C' : '—'}
-                </li>
-              );
+              <li key={i}>
+                {formatDateConditionally(d.time)} — {d.avg_temp != null ? d.avg_temp.toFixed(1) + ' °C' : '—'}
+              </li>
             })}
           </ul>
         </div>

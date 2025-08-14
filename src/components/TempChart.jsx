@@ -20,8 +20,8 @@ export default function TempChart({ data }){
           
           {/* Use the helper function for the tooltip label */}
           <Tooltip 
-          labelFormatter={formatDateConditionally} 
-          formatter={(value) => [`${value.toFixed(1)} °C`, 'Avg Temp']}
+          labelFormatter={[formatDateConditionally, 'Time']} 
+          formatter={(value) => [`${value.toFixed(1)} °C`, 'Temperature']}
           contentStyle={{
             backgroundColor: 'var(--card)',
             border: '1px solid var(--accent)',
@@ -43,7 +43,7 @@ export default function TempChart({ data }){
   )
 }
 
-const formatDateConditionally = (time) => {
+export const formatDateConditionally = (time) => {
   const date = new Date(time);
   const currentYear = new Date().getFullYear();
   const pad = (num) => String(num).padStart(2, '0');
@@ -61,6 +61,6 @@ const formatDateConditionally = (time) => {
     // For the current year, show day/month and time on separate lines for clarity in the chart
     // Recharts handles the newline character '\n' for multi-line labels in tooltips
     // For the X-axis, it will likely just show the first line.
-    return `${day}.${month}\n${hours}:${minutes}`;
+    return `${day}.${month},\n${hours}:${minutes}`;
   }
 };
