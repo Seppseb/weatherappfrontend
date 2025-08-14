@@ -84,9 +84,12 @@ export default function App(){
           <strong>Latest points</strong>
             <ul>
               {data.slice(-20).reverse().map((d, i) => {
-              <li key={i}>
-                {formatDateConditionally(d.time)} — {d.avg_temp != null ? d.avg_temp.toFixed(1) + ' °C' : '—'}
-              </li>
+                //code could go here
+                return (
+                  <li key={i}>
+                    {formatDateConditionally(new Date(d.time))} — {d.avg_temp != null ? d.avg_temp.toFixed(1) + ' °C' : '—'}
+                  </li>
+                );
             })}
           </ul>
         </div>

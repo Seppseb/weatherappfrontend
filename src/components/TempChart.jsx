@@ -20,7 +20,7 @@ export default function TempChart({ data }){
           
           {/* Use the helper function for the tooltip label */}
           <Tooltip 
-          labelFormatter={[formatDateConditionally, 'Time']} 
+          labelFormatter={formatDateConditionally} 
           formatter={(value) => [`${value.toFixed(1)} °C`, 'Temperature']}
           contentStyle={{
             backgroundColor: 'var(--card)',
