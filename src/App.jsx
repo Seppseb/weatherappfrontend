@@ -61,13 +61,12 @@ export default function App(){
   //get new data if time is custom
   useEffect(() => {
     const s = range.start ? new Date(range.start) : null
-    let e = range.end ? new Date(range.end) : null
+    const e = range.end ? new Date(range.end) : null
     if (!s || !e) return
     if (e < s) return
     const dd = new Date(); 
-    dd.setDate(dd.getDate() - 30); 
+    dd.setDate(dd.getDate() - 31); 
     if (s >= dd) return
-    e = e < dd ? e : dd
     const startIso = s.toISOString()
     const endIso   = e.toISOString()
     const currentCity = selectedCity
@@ -94,7 +93,10 @@ export default function App(){
         for (const r of j) {
           newTimes.push(r);
         }
-        citiesData[currentCity] = newTimes;
+        setCitiesData({
+          ...citiesData,
+          [currentCity]: newTimes,
+        });
       }catch(err){ if (!cancelled) setError(String(err)) }
       finally{ if (!cancelled) setLoading(false) }
     }
