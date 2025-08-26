@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import DateRangeSelector from './components/DateRangeSelector'
 import CitySelector from './components/CitySelector'
 import TempChart from './components/TempChart'
-import { fetchAllCities } from './api'
+import { fetchAllCities, fetchAllCitiesCustomTime } from './api'
 import { formatDateConditionally } from './components/TempChart'
 
 export default function App(){
@@ -56,6 +56,51 @@ export default function App(){
     out.sort((a,b) => new Date(a.time) - new Date(b.time))
     setData(out)
   }, [citiesData, selectedCity, range])
+
+
+  //get new data if time is custom
+  useEffect(() => {
+    const s = range.start ? new Date(range.start) : null
+    let e = range.end ? new Date(range.end) : null
+    if (!s || !e) return
+    if (e < s) return
+    const dd = new Date(); 
+    dd.setDate(dd.getDate() - 30); 
+    if (s >= dd) return
+    e = e < dd ? e : dd
+    const startIso = s.toISOString()
+    const endIso   = e.toISOString()
+    const currentCity = selectedCity
+    if (!currentCity) return
+    const readings = citiesData[currentCity] || []
+
+    // save old data that wont be overridden
+    const newTimes = [];
+    for (const r of readings) {
+      const d = new Date(r.observationTime)
+      if (isNaN(d)) continue
+      if (d < e && d > s) continue
+      if (d > e) continue
+      newTimes.push(r);
+    }
+
+    //fetch new data
+    let cancelled = false
+    async function load(){
+      setLoading(true); setError(null)
+      try{
+        const j = await fetchAllCitiesCustomTime(currentCity, startIso, endIso)
+        if (cancelled) return
+        for (const r of j) {
+          newTimes.push(r);
+        }
+        citiesData[currentCity] = newTimes;
+      }catch(err){ if (!cancelled) setError(String(err)) }
+      finally{ if (!cancelled) setLoading(false) }
+    }
+    load()
+    return () => { cancelled = true }
+  }, [selectedCity, range])
 
   const cityList = Object.keys(citiesData)
 
